@@ -3,12 +3,12 @@ import ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-sender_email = "emailsender300@gmail.com"
+sender_email = "crchncuentas@gmail.com"
 password = 'Wareflex123'
 receiver_email = "menriquez@crc.global"
 
 
-fileText = str(open("demofile.txt", "r").read())
+fileText = str(open("officialText1.txt", "r").read())
 newUsers = fileText.split('\n')
 
 for infoUser in newUsers:
@@ -345,7 +345,7 @@ for infoUser in newUsers:
                                     padding-top: 46px;
                                   "
                                 >
-                                  2021 CRC Global Solutions - All Rights Reserved
+                                  2022 CRC Global Solutions - All Rights Reserved
                                 </td>
                                 <td
                                   width="200"
