@@ -4,7 +4,8 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 sender_email = "crchncuentas@gmail.com"
-password = 'Wareflex123'
+##password = 'Wareflex123'
+password = 'lmfztieueyjthjqu'
 receiver_email = "menriquez@crc.global"
 
 
