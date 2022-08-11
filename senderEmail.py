@@ -28,6 +28,8 @@ for infoUser in newUsers:
         "userRemote": tmp[7],
         "userRemotePassword": tmp[8],
         "profitToolsPassword": tmp[9],
+        "threeplUsername": tmp[10],
+        "threeplPasswordAccount": tmp[11],
     }
 
     message["Subject"] = "CRC ACCOUNTS - " + tmpDict["name"]
@@ -294,6 +296,23 @@ for infoUser in newUsers:
                                     Profit tools Password:
                                     <strong>{profitToolsPassword}</strong>
                                   </p>
+                                  <p 
+                                    style="
+                                      color: #2368c3;
+                                      font-weight: bold;
+                                      text-decoration: underline;
+                                    "
+                                  >
+                                    3PL Account
+                                  </p>
+                                  <p>
+                                    3PL Username:
+                                    <strong>{threeplUsername}</strong>
+                                  </p>
+                                  <p>
+                                    3PL Password Account:
+                                    <strong>{threeplPasswordAccount}</strong>
+                                  </p>
 
                                 <p>
                                   Any other questions or issues you have, don’t hesitate
@@ -407,7 +426,8 @@ for infoUser in newUsers:
             </table>
           </body>
         </html>      
-      """.format(name=tmpDict["name"], emailUser=tmpDict["emailUser"], emailPassword=tmpDict["emailPassword"], phoneNumber=tmpDict["phoneNumber"], phoneExt=tmpDict["phoneExt"], phonePassword=tmpDict["phonePassword"], userRemote=tmpDict["userRemote"], userRemotePassword=tmpDict["userRemotePassword"], profitToolsPassword=tmpDict["profitToolsPassword"])
+      """.format(name=tmpDict["name"], emailUser=tmpDict["emailUser"], emailPassword=tmpDict["emailPassword"], phoneNumber=tmpDict["phoneNumber"], phoneExt=tmpDict["phoneExt"], phonePassword=tmpDict["phonePassword"],
+                 userRemote=tmpDict["userRemote"], userRemotePassword=tmpDict["userRemotePassword"], profitToolsPassword=tmpDict["profitToolsPassword"], threeplUsername=tmpDict["threeplUsername"], threeplPasswordAccount=tmpDict["threeplPasswordAccount"],)
 
     # Turn these into plain/html MIMEText objects
     part1 = MIMEText(html, "html")
