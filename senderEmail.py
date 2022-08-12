@@ -1,40 +1,67 @@
 import smtplib
 import ssl
+import json
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-sender_email = "crchncuentas@gmail.com"
-##password = 'Wareflex123'
-password = 'lmfztieueyjthjqu'
-receiver_email = "menriquez@crc.global"
 
+fileText = open('data.json')
+newUsers = json.load(fileText)
 
-fileText = str(open("officialText1.txt", "r").read())
-newUsers = fileText.split('\n')
-
-for infoUser in newUsers:
+for infoUser in newUsers['employees']:
     message = MIMEMultipart("alternative")
 
-    tmp = infoUser.split(',')
-    print(tmp)
-    tmpDict = {
-        "personalEmail": tmp[0],
-        "name": tmp[1],
-        "emailUser": tmp[2],
-        "emailPassword": tmp[3],
-        "phoneNumber": tmp[4],
-        "phoneExt": tmp[5],
-        "phonePassword": tmp[6],
-        "userRemote": tmp[7],
-        "userRemotePassword": tmp[8],
-        "profitToolsPassword": tmp[9],
-        "threeplUsername": tmp[10],
-        "threeplPasswordAccount": tmp[11],
-    }
-
-    message["Subject"] = "CRC ACCOUNTS - " + tmpDict["name"]
+    message["Subject"] = "CRC ACCOUNTS - " + infoUser['name']
     message["From"] = sender_email
-    receiver_email = tmpDict["personalEmail"]
+    receiver_email = infoUser["personalEmail"]
+
+    if infoUser["userRemote"] != " ":
+        profitTools = """\
+        <p
+          style="
+            color: #2368c3;
+            font-weight: bold;
+            text-decoration: underline;
+          "
+        >
+          Profit Tools
+        </p>
+        <p>
+          User for Remote Desktop:
+          <strong>{userRemote}</strong>
+        </p>
+        <p>
+          Password for Remote Desktop:
+          <strong>{userRemotePassword}</strong>
+        </p>
+        <p>
+          Profit tools Password:
+          <strong>{profitToolsPassword}</strong>
+        </p>""".format(userRemote=infoUser["userRemote"], userRemotePassword=infoUser["userRemotePassword"], profitToolsPassword=infoUser["profitToolsPassword"])
+    else:
+        profitTools = " "
+
+    if infoUser["threeplUsername"] != " ":
+        threePl = """\
+        <p 
+          style="
+            color: #2368c3;
+            font-weight: bold;
+            text-decoration: underline;
+          "
+        >
+          3PL Account
+        </p>
+        <p>
+          3PL Username:
+          <strong>{threeplUsername}</strong>
+        </p>
+        <p>
+          3PL Password Account:
+          <strong>{threeplPasswordAccount}</strong>
+        </p>""".format(threeplUsername=infoUser["threeplUsername"], threeplPasswordAccount=infoUser["threeplPasswordAccount"])
+    else:
+        threePl = " "
 
     # Create the plain-text and HTML version of your message
     html = """\
@@ -275,45 +302,8 @@ for infoUser in newUsers:
                                     Password:
                                     <strong>{phonePassword}</strong>
                                   </p>
-                                  <p
-                                    style="
-                                      color: #2368c3;
-                                      font-weight: bold;
-                                      text-decoration: underline;
-                                    "
-                                  >
-                                    Profit Tools
-                                  </p>
-                                  <p>
-                                    User for Remote Desktop:
-                                    <strong>{userRemote}</strong>
-                                  </p>
-                                  <p>
-                                    Password for Remote Desktop:
-                                    <strong>{userRemotePassword}</strong>
-                                  </p>
-                                  <p>
-                                    Profit tools Password:
-                                    <strong>{profitToolsPassword}</strong>
-                                  </p>
-                                  <p 
-                                    style="
-                                      color: #2368c3;
-                                      font-weight: bold;
-                                      text-decoration: underline;
-                                    "
-                                  >
-                                    3PL Account
-                                  </p>
-                                  <p>
-                                    3PL Username:
-                                    <strong>{threeplUsername}</strong>
-                                  </p>
-                                  <p>
-                                    3PL Password Account:
-                                    <strong>{threeplPasswordAccount}</strong>
-                                  </p>
-
+                                  {profitTools}
+                                  {threePl}
                                 <p>
                                   Any other questions or issues you have, don’t hesitate
                                   to ask !
@@ -426,8 +416,8 @@ for infoUser in newUsers:
             </table>
           </body>
         </html>      
-      """.format(name=tmpDict["name"], emailUser=tmpDict["emailUser"], emailPassword=tmpDict["emailPassword"], phoneNumber=tmpDict["phoneNumber"], phoneExt=tmpDict["phoneExt"], phonePassword=tmpDict["phonePassword"],
-                 userRemote=tmpDict["userRemote"], userRemotePassword=tmpDict["userRemotePassword"], profitToolsPassword=tmpDict["profitToolsPassword"], threeplUsername=tmpDict["threeplUsername"], threeplPasswordAccount=tmpDict["threeplPasswordAccount"],)
+      """.format(name=infoUser["name"], emailUser=infoUser["emailUser"], emailPassword=infoUser["emailPassword"], phoneNumber=infoUser["phoneNumber"], phoneExt=infoUser["phoneExt"], phonePassword=infoUser["phonePassword"],
+                 profitTools=profitTools, threePl=threePl)
 
     # Turn these into plain/html MIMEText objects
     part1 = MIMEText(html, "html")
@@ -443,3 +433,5 @@ for infoUser in newUsers:
         server.sendmail(
             sender_email, receiver_email, message.as_string()
         )
+
+fileText.close()
