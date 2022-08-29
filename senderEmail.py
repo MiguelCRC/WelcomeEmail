@@ -58,7 +58,11 @@ for infoUser in newUsers['employees']:
       <p>
         3PL Password Account:
         <strong>{threeplPasswordAccount}</strong>
-      </p>""".format(threeplUsername=infoUser["threeplUsername"], threeplPasswordAccount=infoUser["threeplPasswordAccount"])
+      </p>
+      <p>
+        3PL GUID:
+        <strong>{threeplGuid}</strong>
+      </p>""".format(threeplUsername=infoUser["threeplUsername"], threeplPasswordAccount=infoUser["threeplPasswordAccount"], threeplGuid=infoUser["threeplGuid"])
     else:
         threePl = " "
 
